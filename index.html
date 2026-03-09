@@ -396,44 +396,53 @@
         </p>
 <pre>&lt;meta name="referrer" content="strict-origin-when-cross-origin"&gt;</pre>
 
-        <p style="margin-top:16px;"><strong>Fix 2 &mdash; CookiebotOnAccept callback:</strong><br>
-            If the auto-blocker strips the <code>referrerpolicy</code> attribute during block/unblock,
-            this script re-applies it after consent is given.
+        <p style="margin-top:16px;"><strong>Fix 2 &mdash; CookiebotOnAccept callback (iframe replace — required for iOS):</strong><br>
+            On iOS, simply setting <code>referrerpolicy</code> and reloading the iframe does NOT work
+            because the YouTube player retains the failed state. The iframe must be completely
+            destroyed and recreated with a fresh player context.
         </p>
 <pre>window.addEventListener('CookiebotOnAccept', function() {
   setTimeout(function() {
-    var iframes = document.querySelectorAll(
+    document.querySelectorAll(
       'iframe[src*="youtube.com"], iframe[src*="youtube-nocookie.com"]'
-    );
-    iframes.forEach(function(iframe) {
-      if (!iframe.getAttribute('referrerpolicy')) {
-        iframe.setAttribute(
+    ).forEach(function(oldIframe) {
+      if (!oldIframe.getAttribute('referrerpolicy')) {
+        var newIframe = document.createElement('iframe');
+        // Copy all attributes from old iframe
+        Array.from(oldIframe.attributes).forEach(function(attr) {
+          newIframe.setAttribute(attr.name, attr.value);
+        });
+        // Ensure referrerpolicy is set
+        newIframe.setAttribute(
           'referrerpolicy',
           'strict-origin-when-cross-origin'
         );
-        // Force reload to apply new policy
-        iframe.src = iframe.src;
+        // Replace old iframe with new one
+        oldIframe.parentNode.replaceChild(newIframe, oldIframe);
       }
     });
   }, 500);
 });</pre>
 
-        <p style="margin-top:16px;"><strong>Fix 3 &mdash; MutationObserver fallback:</strong><br>
+        <p style="margin-top:16px;"><strong>Fix 3 &mdash; MutationObserver fallback (with iframe replace):</strong><br>
             For cases where the iframe is dynamically injected after consent (e.g. WP YouTube block),
-            this observer catches new iframes and patches them.
+            this observer catches new iframes and replaces them with a corrected version.
         </p>
 <pre>window.addEventListener('CookiebotOnAccept', function() {
-  function patchIframe(iframe) {
-    if (iframe.src &amp;&amp;
-       (iframe.src.includes('youtube.com') ||
-        iframe.src.includes('youtube-nocookie.com')) &amp;&amp;
-       !iframe.getAttribute('referrerpolicy')) {
-      iframe.setAttribute(
+  function patchIframe(oldIframe) {
+    if (oldIframe.src &amp;&amp;
+       (oldIframe.src.includes('youtube.com') ||
+        oldIframe.src.includes('youtube-nocookie.com')) &amp;&amp;
+       !oldIframe.getAttribute('referrerpolicy')) {
+      var newIframe = document.createElement('iframe');
+      Array.from(oldIframe.attributes).forEach(function(attr) {
+        newIframe.setAttribute(attr.name, attr.value);
+      });
+      newIframe.setAttribute(
         'referrerpolicy',
         'strict-origin-when-cross-origin'
       );
-      // Force reload to apply new policy
-      iframe.src = iframe.src;
+      oldIframe.parentNode.replaceChild(newIframe, oldIframe);
     }
   }
 
@@ -552,15 +561,20 @@
         // ============================================================
         function applyFix() {
             var iframes = document.querySelectorAll('iframe[id^="yt-test"]');
-            iframes.forEach(function(iframe) {
-                iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
-                // Force reload
-                if (iframe.src) {
-                    iframe.src = iframe.src;
-                }
+            iframes.forEach(function(oldIframe) {
+                var newIframe = document.createElement('iframe');
+                // Copy all attributes from old iframe
+                Array.from(oldIframe.attributes).forEach(function(attr) {
+                    newIframe.setAttribute(attr.name, attr.value);
+                });
+                // Ensure referrerpolicy is set
+                newIframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+                // Replace old iframe with new one (fresh player context)
+                oldIframe.parentNode.replaceChild(newIframe, oldIframe);
+                log('FIX: Replaced iframe ' + newIframe.id + ' with new element + referrerpolicy set', 'success');
             });
-            log('FIX APPLIED: referrerpolicy="strict-origin-when-cross-origin" added to all test iframes + reload triggered', 'success');
-            setTimeout(checkAllDiagnostics, 1000);
+            log('FIX APPLIED: All iframes destroyed and recreated with referrerpolicy="strict-origin-when-cross-origin"', 'success');
+            setTimeout(checkAllDiagnostics, 1500);
         }
 
         function removeFix() {
