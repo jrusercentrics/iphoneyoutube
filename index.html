@@ -1,56 +1,641 @@
 <!DOCTYPE html>
-<html lang="en-GB">
+<html lang="en">
 <head>
-    <meta charset="UTF-8"/>
-    <script type="text/javascript" data-cookieconsent="ignore" src="data:text/javascript;base64,d2luZG93LmRhdGFMYXllcj13aW5kb3cuZGF0YUxheWVyfHxbXTtmdW5jdGlvbiBndGFnKCl7ZGF0YUxheWVyLnB1c2goYXJndW1lbnRzKX0KZ3RhZygiY29uc2VudCIsImRlZmF1bHQiLHthZF9wZXJzb25hbGl6YXRpb246ImRlbmllZCIsYWRfc3RvcmFnZToiZGVuaWVkIixhZF91c2VyX2RhdGE6ImRlbmllZCIsYW5hbHl0aWNzX3N0b3JhZ2U6ImRlbmllZCIsZnVuY3Rpb25hbGl0eV9zdG9yYWdlOiJkZW5pZWQiLHBlcnNvbmFsaXphdGlvbl9zdG9yYWdlOiJkZW5pZWQiLHNlY3VyaXR5X3N0b3JhZ2U6ImdyYW50ZWQiLHdhaXRfZm9yX3VwZGF0ZTo1MDAsfSk7Z3RhZygic2V0IiwiYWRzX2RhdGFfcmVkYWN0aW9uIiwhMCk=" defer></script>
-    <script type="text/javascript" data-cookieconsent="ignore" src="data:text/javascript;base64,KGZ1bmN0aW9uKHcsZCxzLGwsaSl7d1tsXT13W2xdfHxbXTt3W2xdLnB1c2goeydndG0uc3RhcnQnOm5ldyBEYXRlKCkuZ2V0VGltZSgpLGV2ZW50OidndG0uanMnfSk7dmFyIGY9ZC5nZXRFbGVtZW50c0J5VGFnTmFtZShzKVswXSxqPWQuY3JlYXRlRWxlbWVudChzKSxkbD1sIT09J2RhdGFMYXllcic/JyZsPScrbDonJztqLmFzeW5jPSEwO2ouc3JjPSdodHRwczovL3d3dy5nb29nbGV0YWdtYW5hZ2VyLmNvbS9ndG0uanM/aWQ9JytpK2RsO2YucGFyZW50Tm9kZS5pbnNlcnRCZWZvcmUoaixmKX0pKHdpbmRvdyxkb2N1bWVudCwnc2NyaXB0JywnZGF0YUxheWVyJywnR1RNLVdDODlTUlgnKQ==" defer></script>
-    <script type="text/javascript" id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-implementation="wp" data-cbid="e2769309-3672-42d4-bc3f-d56333e6a880" data-blockingmode="auto" defer data-deferred="1"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title>Am I eligible for support? - Quartet Community Foundation (REPRO)</title>
-    <link data-optimized="2" rel="stylesheet" href="https://quartetcf.org.uk/wp-content/litespeed/css/b7c18b09589f67d280d9f7b66e788eeb.css?ver=ec2ad"/>
-    <script src="https://quartetcf.org.uk/wp-includes/js/jquery/jquery.min.js?ver=3.7.1" id="jquery-core-js"></script>
-    <script data-optimized="1" src="https://quartetcf.org.uk/wp-content/litespeed/js/7f79937f8c54028d27b2e1b49f5b27c5.js?ver=ef077" id="jquery-migrate-js" defer data-deferred="1"></script>
-    <script id="addtoany-core-js-before" src="data:text/javascript;base64,d2luZG93LmEyYV9jb25maWc9d2luZG93LmEyYV9jb25maWd8fHt9O2EyYV9jb25maWcuY2FsbGJhY2tzPVtdO2EyYV9jb25maWcub3ZlcmxheXM9W107YTJhX2NvbmZpZy50ZW1wbGF0ZXM9e307" defer></script>
-    <script defer src="https://static.addtoany.com/menu/page.js" id="addtoany-core-js"></script>
-    <script data-optimized="1" defer src="https://quartetcf.org.uk/wp-content/litespeed/js/6bcddbb74d3067cc93ba5b6626fb060c.js?ver=0f701" id="addtoany-jquery-js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Error 153 - Cookiebot Reproduction Page</title>
+
+    <!--
+    ╔══════════════════════════════════════════════════════════════════╗
+    ║  REPRODUCTION PAGE: YouTube Error 153 + Cookiebot Auto-Block   ║
+    ║  Domain: quartetcf.org.uk | Domain ID: 2280958                 ║
+    ╠══════════════════════════════════════════════════════════════════╣
+    ║  PURPOSE:                                                      ║
+    ║  Replicate the "Error 153: Video player configuration error"   ║
+    ║  that occurs on mobile (Safari & Chromium) when Cookiebot      ║
+    ║  auto-blocker blocks and then unblocks YouTube iframes.        ║
+    ║                                                                ║
+    ║  ROOT CAUSE HYPOTHESIS:                                        ║
+    ║  1. Page has a restrictive Referrer-Policy (e.g. no-referrer)  ║
+    ║  2. Cookiebot auto-blocker removes/doesn't restore the         ║
+    ║     referrerpolicy attribute when re-enabling the iframe       ║
+    ║  3. YouTube rejects the embed because it can't verify the      ║
+    ║     referrer → Error 153                                       ║
+    ║                                                                ║
+    ║  HOW TO USE:                                                   ║
+    ║  - Host this on a test domain added to the same domain group   ║
+    ║  - Toggle the scenarios using the control panel                ║
+    ║  - Test on mobile Safari & Chrome                              ║
+    ╚══════════════════════════════════════════════════════════════════╝
+    -->
+
+    <!-- 
+    ============================================================
+    SCENARIO SELECTOR: Uncomment ONE of the meta tags below
+    to test different Referrer-Policy configurations.
+    ============================================================
+    -->
+
+    <!-- SCENARIO A: Restrictive policy (LIKELY CAUSE OF ERROR 153) -->
+    <meta name="referrer" content="no-referrer">
+
+    <!-- SCENARIO B: Same-origin only (also triggers Error 153) -->
+    <!-- <meta name="referrer" content="same-origin"> -->
+
+    <!-- SCENARIO C: Recommended fix by YouTube -->
+    <!-- <meta name="referrer" content="strict-origin-when-cross-origin"> -->
+
+    <!-- SCENARIO D: No meta tag at all (browser default applies) -->
+    <!-- Remove all referrer meta tags -->
+
+
+    <!-- 
+    ============================================================
+    COOKIEBOT SCRIPT
+    CBID: e2769309-3672-42d4-bc3f-d56333e6a880
+    ============================================================
+    -->
+    <script id="Cookiebot"
+            src="https://consent.cookiebot.com/uc.js"
+            data-cbid="e2769309-3672-42d4-bc3f-d56333e6a880"
+            data-blockingmode="auto"
+            type="text/javascript">
+    </script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            padding: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: #1a1a2e;
+            color: #fff;
+            padding: 24px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+        }
+
+        .header h1 {
+            font-size: 1.4em;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            font-size: 0.85em;
+            opacity: 0.8;
+            line-height: 1.5;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #e74c3c;
+            color: #fff;
+            padding: 2px 10px;
+            border-radius: 4px;
+            font-size: 0.75em;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .control-panel {
+            background: #fff;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+
+        .control-panel h2 {
+            font-size: 1em;
+            margin-bottom: 12px;
+            color: #1a1a2e;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        @media (max-width: 600px) {
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .info-item {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 3px solid #3498db;
+        }
+
+        .info-item label {
+            display: block;
+            font-size: 0.7em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #888;
+            margin-bottom: 4px;
+        }
+
+        .info-item span {
+            font-size: 0.9em;
+            font-weight: 600;
+            word-break: break-all;
+        }
+
+        .status-ok { color: #27ae60; }
+        .status-warn { color: #e67e22; }
+        .status-error { color: #e74c3c; }
+
+        .video-section {
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 2px solid #e0e0e0;
+        }
+
+        .video-section h2 {
+            font-size: 1em;
+            margin-bottom: 4px;
+        }
+
+        .video-section .desc {
+            font-size: 0.8em;
+            color: #888;
+            margin-bottom: 16px;
+        }
+
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 8px;
+            background: #000;
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .log-panel {
+            background: #1a1a2e;
+            color: #0f0;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 24px;
+            font-family: "SF Mono", "Fira Code", monospace;
+            font-size: 0.78em;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .log-panel h2 {
+            color: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 1em;
+            margin-bottom: 12px;
+        }
+
+        .log-entry {
+            padding: 3px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            line-height: 1.4;
+        }
+
+        .log-entry.error { color: #e74c3c; }
+        .log-entry.warn { color: #f39c12; }
+        .log-entry.info { color: #3498db; }
+        .log-entry.success { color: #2ecc71; }
+
+        .fix-section {
+            background: #eafaf1;
+            border: 2px solid #27ae60;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+
+        .fix-section h2 {
+            font-size: 1em;
+            color: #1e8449;
+            margin-bottom: 12px;
+        }
+
+        .fix-section pre {
+            background: #1a1a2e;
+            color: #2ecc71;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.82em;
+            line-height: 1.5;
+            margin-top: 8px;
+        }
+
+        .fix-section p {
+            font-size: 0.85em;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+
+        button.action-btn {
+            background: #3498db;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin: 4px;
+        }
+
+        button.action-btn:hover {
+            background: #2980b9;
+        }
+
+        button.action-btn.danger {
+            background: #e74c3c;
+        }
+
+        button.action-btn.success {
+            background: #27ae60;
+        }
+    </style>
 </head>
-<body data-rsssl=1 class="wp-singular page-template-default page page-id-122 page-child parent-pageid-121 wp-custom-logo wp-embed-responsive wp-theme-twentytwentyfour wp-child-theme-quartet mega-menu-max-mega-menu-1">
-    <div class="wp-site-blocks">
-        <main class="wp-block-group is-layout-flow wp-block-group-is-layout-flow">
-            <div class="entry-content wp-block-post-content has-global-padding is-layout-constrained wp-block-post-content-is-layout-constrained">
+<body>
 
-                <h1>Am I eligible to apply? (REPRODUCTION PAGE)</h1>
-                <p style="background:#fff3cd;padding:12px;border-radius:6px;border:1px solid #ffc107;margin:20px 0;">
-                    <strong>L3 Test Page:</strong> This is the client's exact page structure with their scripts, 
-                    using your CBID. The iframe below is the exact same markup as the client's.
-                    Test on iPhone to reproduce Error 153.
-                </p>
-
-                <div class="wp-block-group has-global-padding is-layout-constrained wp-block-group-is-layout-constrained" style="margin-bottom:50px">
-
-                    <figure class="wp-block-embed is-type-video is-provider-youtube wp-block-embed-youtube wp-embed-aspect-16-9 wp-has-aspect-ratio">
-                        <div class="wp-block-embed__wrapper">
-                            <iframe title="Am I eligible for support? Learn more in this video with Liz Alcock, Grants Officer." width="500" height="281" data-cookieconsent="statistics, marketing" data-src="https://www.youtube.com/embed/AqAcyrxPmYI?feature=oembed" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                            <div class="cookieconsent-optout-statistics cookieconsent-optout-marketing">
-                                Please accept <a href="javascript:Cookiebot.renew()">statistics, marketing</a> cookies to watch this video.
-                            </div>
-                        </div>
-                    </figure>
-
-                </div>
-            </div>
-        </main>
+    <!-- HEADER -->
+    <div class="header">
+        <span class="badge">L3 INVESTIGATION</span>
+        <h1>YouTube Error 153 &mdash; Cookiebot Reproduction</h1>
+        <p>
+            Domain: quartetcf.org.uk &bull; Domain ID: 2280958<br>
+            This page replicates the scenario where Cookiebot auto-blocking
+            causes YouTube iframes to fail with Error 153 after consent is given.
+        </p>
     </div>
 
-    <script src="data:text/javascript;base64,cmVxdWVzdEFuaW1hdGlvbkZyYW1lKCgpPT5kb2N1bWVudC5ib2R5LmNsYXNzTGlzdC5hZGQoInN0ay0tYW5pbS1pbml0Iikp" defer></script>
-    <script data-optimized="1" src="https://quartetcf.org.uk/wp-content/litespeed/js/706d07ad2584781f2d656f35e9da3859.js?ver=bd3e5" id="custom-js-js" defer data-deferred="1"></script>
-    <script data-optimized="1" src="https://quartetcf.org.uk/wp-content/litespeed/js/ea15f770f4038992dee4ff7bd1ff3d12.js?ver=62561" id="stk-frontend-accordion-js" defer data-deferred="1"></script>
-    <script id="lbwps-photoswipe5-js-extra" src="data:text/javascript;base64,dmFyIGxid3BzT3B0aW9ucz17fQ==" defer></script>
-    <script type="module" src="https://quartetcf.org.uk/wp-content/plugins/lightbox-photoswipe/assets/ps5/frontend.min.js?ver=5.8.2"></script>
-    <script data-optimized="1" src="https://quartetcf.org.uk/wp-content/litespeed/js/81007f8aaa394099401c613303610642.js?ver=25367" id="callback-panel-js-js" defer data-deferred="1"></script>
-    <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js" id="slick-js-js" defer data-deferred="1"></script>
-    <script data-optimized="1" src="https://quartetcf.org.uk/wp-content/litespeed/js/1126370e6546fc25b078af69e1e10332.js?ver=a8755" id="hoverIntent-js" defer data-deferred="1"></script>
-    <script data-optimized="1" src="https://quartetcf.org.uk/wp-content/litespeed/js/d7a36b34d9faad0395977d95c5eb7edc.js?ver=379dc" id="megamenu-js" defer data-deferred="1"></script>
-    <script data-optimized="1" src="https://quartetcf.org.uk/wp-content/litespeed/js/482a2b2fa899f03dd51e41402e21b6c1.js?ver=ddfcb" id="megamenu-pro-js" defer data-deferred="1"></script>
+    <!-- DIAGNOSTICS PANEL -->
+    <div class="control-panel">
+        <h2>&#128269; Live Diagnostics</h2>
+        <div class="info-grid">
+            <div class="info-item">
+                <label>Page Referrer-Policy (meta)</label>
+                <span id="diag-meta-policy">Detecting...</span>
+            </div>
+            <div class="info-item">
+                <label>Effective Referrer-Policy (HTTP)</label>
+                <span id="diag-http-policy">Check DevTools &rarr; Network</span>
+            </div>
+            <div class="info-item">
+                <label>Cookiebot Loaded</label>
+                <span id="diag-cb-loaded">Checking...</span>
+            </div>
+            <div class="info-item">
+                <label>Consent State</label>
+                <span id="diag-consent-state">Checking...</span>
+            </div>
+        </div>
+        <div style="margin-top: 12px;">
+            <button class="action-btn" onclick="checkAllDiagnostics()">&#128260; Refresh Diagnostics</button>
+            <button class="action-btn success" onclick="applyFix()">&#9989; Apply referrerpolicy Fix</button>
+            <button class="action-btn danger" onclick="removeFix()">&#10060; Remove Fix (reproduce error)</button>
+        </div>
+    </div>
+
+    <!-- VIDEO TEST 1: Standard YouTube embed (no referrerpolicy) -->
+    <div class="video-section">
+        <h2>Test 1: Standard YouTube Embed (no referrerpolicy attribute)</h2>
+        <p class="desc">
+            This iframe does NOT have <code>referrerpolicy</code> set.
+            With a restrictive page-level Referrer-Policy (no-referrer), this should trigger Error 153.
+        </p>
+        <div class="video-wrapper">
+            <iframe
+                id="yt-test-1"
+                src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                title="YouTube Test 1 - No referrerpolicy"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen>
+            </iframe>
+        </div>
+    </div>
+
+    <!-- VIDEO TEST 2: YouTube embed WITH referrerpolicy -->
+    <div class="video-section">
+        <h2>Test 2: YouTube Embed WITH referrerpolicy attribute</h2>
+        <p class="desc">
+            This iframe HAS <code>referrerpolicy="strict-origin-when-cross-origin"</code>.
+            This should work correctly even with a restrictive page-level policy.
+        </p>
+        <div class="video-wrapper">
+            <iframe
+                id="yt-test-2"
+                src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                title="YouTube Test 2 - With referrerpolicy"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen>
+            </iframe>
+        </div>
+    </div>
+
+    <!-- VIDEO TEST 3: youtube-nocookie.com variant -->
+    <div class="video-section">
+        <h2>Test 3: youtube-nocookie.com (Privacy Enhanced Mode)</h2>
+        <p class="desc">
+            Same as Test 1 but using <code>youtube-nocookie.com</code>.
+            This is common in WP YouTube blocks. No <code>referrerpolicy</code> attribute.
+        </p>
+        <div class="video-wrapper">
+            <iframe
+                id="yt-test-3"
+                src="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ"
+                title="YouTube Test 3 - nocookie, no referrerpolicy"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen>
+            </iframe>
+        </div>
+    </div>
+
+    <!-- DIAGNOSTIC LOG -->
+    <div class="log-panel">
+        <h2>&#128203; Event Log</h2>
+        <div id="log-output"></div>
+    </div>
+
+    <!-- FIX DOCUMENTATION -->
+    <div class="fix-section">
+        <h2>&#128736; Proposed Fixes</h2>
+
+        <p><strong>Fix 1 &mdash; Page-level Referrer-Policy (recommended):</strong><br>
+            Add this meta tag to the page &lt;head&gt; or configure it as an HTTP header on the server.
+            This is the cleanest fix and resolves the issue globally.
+        </p>
+<pre>&lt;meta name="referrer" content="strict-origin-when-cross-origin"&gt;</pre>
+
+        <p style="margin-top:16px;"><strong>Fix 2 &mdash; CookiebotOnAccept callback:</strong><br>
+            If the auto-blocker strips the <code>referrerpolicy</code> attribute during block/unblock,
+            this script re-applies it after consent is given.
+        </p>
+<pre>window.addEventListener('CookiebotOnAccept', function() {
+  setTimeout(function() {
+    var iframes = document.querySelectorAll(
+      'iframe[src*="youtube.com"], iframe[src*="youtube-nocookie.com"]'
+    );
+    iframes.forEach(function(iframe) {
+      if (!iframe.getAttribute('referrerpolicy')) {
+        iframe.setAttribute(
+          'referrerpolicy',
+          'strict-origin-when-cross-origin'
+        );
+        // Force reload to apply new policy
+        iframe.src = iframe.src;
+      }
+    });
+  }, 500);
+});</pre>
+
+        <p style="margin-top:16px;"><strong>Fix 3 &mdash; MutationObserver fallback:</strong><br>
+            For cases where the iframe is dynamically injected after consent (e.g. WP YouTube block),
+            this observer catches new iframes and patches them.
+        </p>
+<pre>window.addEventListener('CookiebotOnAccept', function() {
+  function patchIframe(iframe) {
+    if (iframe.src &amp;&amp;
+       (iframe.src.includes('youtube.com') ||
+        iframe.src.includes('youtube-nocookie.com')) &amp;&amp;
+       !iframe.getAttribute('referrerpolicy')) {
+      iframe.setAttribute(
+        'referrerpolicy',
+        'strict-origin-when-cross-origin'
+      );
+      // Force reload to apply new policy
+      iframe.src = iframe.src;
+    }
+  }
+
+  // Patch existing iframes
+  document.querySelectorAll('iframe').forEach(patchIframe);
+
+  // Watch for new iframes
+  var observer = new MutationObserver(function(mutations) {
+    mutations.forEach(function(m) {
+      m.addedNodes.forEach(function(node) {
+        if (node.tagName === 'IFRAME') patchIframe(node);
+        if (node.querySelectorAll) {
+          node.querySelectorAll('iframe').forEach(patchIframe);
+        }
+      });
+    });
+  });
+  observer.observe(document.body, {
+    childList: true, subtree: true
+  });
+});</pre>
+    </div>
+
+
+    <!-- DIAGNOSTIC SCRIPTS -->
+    <script>
+        // ============================================================
+        // LOGGING UTILITY
+        // ============================================================
+        function log(msg, level) {
+            level = level || 'info';
+            var el = document.getElementById('log-output');
+            var entry = document.createElement('div');
+            entry.className = 'log-entry ' + level;
+            var time = new Date().toLocaleTimeString();
+            entry.textContent = '[' + time + '] ' + msg;
+            el.insertBefore(entry, el.firstChild);
+        }
+
+        // ============================================================
+        // DIAGNOSTICS
+        // ============================================================
+        function checkAllDiagnostics() {
+            // Check meta referrer policy
+            var metaRef = document.querySelector('meta[name="referrer"]');
+            var metaEl = document.getElementById('diag-meta-policy');
+            if (metaRef) {
+                var policy = metaRef.getAttribute('content');
+                metaEl.textContent = policy;
+                if (policy === 'no-referrer' || policy === 'same-origin') {
+                    metaEl.className = 'status-error';
+                    log('Page Referrer-Policy: "' + policy + '" — THIS CAUSES ERROR 153', 'error');
+                } else if (policy === 'strict-origin-when-cross-origin') {
+                    metaEl.className = 'status-ok';
+                    log('Page Referrer-Policy: "' + policy + '" — OK', 'success');
+                } else {
+                    metaEl.className = 'status-warn';
+                    log('Page Referrer-Policy: "' + policy + '"', 'warn');
+                }
+            } else {
+                metaEl.textContent = 'Not set (browser default)';
+                metaEl.className = 'status-ok';
+                log('No meta referrer tag found — browser default applies (usually strict-origin-when-cross-origin)', 'info');
+            }
+
+            // Check Cookiebot
+            var cbEl = document.getElementById('diag-cb-loaded');
+            if (typeof Cookiebot !== 'undefined') {
+                cbEl.textContent = 'Yes (v' + (Cookiebot.version || '?') + ')';
+                cbEl.className = 'status-ok';
+                log('Cookiebot loaded: v' + (Cookiebot.version || 'unknown'), 'success');
+            } else if (typeof CookieConsent !== 'undefined') {
+                cbEl.textContent = 'Yes (CookieConsent obj found)';
+                cbEl.className = 'status-ok';
+                log('CookieConsent object found', 'success');
+            } else {
+                cbEl.textContent = 'Not loaded (check CBID)';
+                cbEl.className = 'status-error';
+                log('Cookiebot NOT loaded — replace CBID with real value to test auto-blocking', 'error');
+            }
+
+            // Check consent state
+            var consentEl = document.getElementById('diag-consent-state');
+            if (typeof Cookiebot !== 'undefined' && Cookiebot.consent) {
+                var c = Cookiebot.consent;
+                var state = 'Marketing: ' + (c.marketing ? 'YES' : 'NO');
+                consentEl.textContent = state;
+                consentEl.className = c.marketing ? 'status-ok' : 'status-warn';
+                log('Consent state — marketing: ' + c.marketing + ', statistics: ' + c.statistics + ', preferences: ' + c.preferences, 'info');
+            } else {
+                consentEl.textContent = 'No consent data yet';
+                consentEl.className = 'status-warn';
+                log('No consent data available yet', 'warn');
+            }
+
+            // Check iframe attributes
+            var iframes = document.querySelectorAll('iframe[id^="yt-test"]');
+            iframes.forEach(function(iframe) {
+                var rp = iframe.getAttribute('referrerpolicy');
+                var src = iframe.getAttribute('src') || iframe.getAttribute('data-cookieblock-src') || iframe.getAttribute('data-src');
+                var blocked = !iframe.getAttribute('src') && (iframe.getAttribute('data-cookieblock-src') || iframe.getAttribute('data-src'));
+                var id = iframe.id;
+
+                if (blocked) {
+                    log(id + ': BLOCKED by Cookiebot (src removed, data-cookieblock-src present)', 'warn');
+                } else if (src) {
+                    log(id + ': src="' + src.substring(0, 50) + '..." | referrerpolicy="' + (rp || 'NOT SET') + '"', rp ? 'success' : 'error');
+                } else {
+                    log(id + ': No src or data-src found', 'error');
+                }
+            });
+        }
+
+        // ============================================================
+        // FIX SIMULATION
+        // ============================================================
+        function applyFix() {
+            var iframes = document.querySelectorAll('iframe[id^="yt-test"]');
+            iframes.forEach(function(iframe) {
+                iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+                // Force reload
+                if (iframe.src) {
+                    iframe.src = iframe.src;
+                }
+            });
+            log('FIX APPLIED: referrerpolicy="strict-origin-when-cross-origin" added to all test iframes + reload triggered', 'success');
+            setTimeout(checkAllDiagnostics, 1000);
+        }
+
+        function removeFix() {
+            var iframes = document.querySelectorAll('iframe[id^="yt-test"]');
+            iframes.forEach(function(iframe) {
+                iframe.removeAttribute('referrerpolicy');
+                if (iframe.src) {
+                    iframe.src = iframe.src;
+                }
+            });
+            log('FIX REMOVED: referrerpolicy attribute removed from all test iframes + reload triggered', 'error');
+            setTimeout(checkAllDiagnostics, 1000);
+        }
+
+        // ============================================================
+        // COOKIEBOT EVENT LISTENERS
+        // ============================================================
+        window.addEventListener('CookiebotOnLoad', function() {
+            log('EVENT: CookiebotOnLoad fired', 'info');
+            checkAllDiagnostics();
+        });
+
+        window.addEventListener('CookiebotOnAccept', function() {
+            log('EVENT: CookiebotOnAccept fired — checking if iframes have referrerpolicy...', 'info');
+            setTimeout(function() {
+                var iframes = document.querySelectorAll('iframe');
+                iframes.forEach(function(iframe) {
+                    var src = iframe.getAttribute('src') || '';
+                    if (src.includes('youtube')) {
+                        var rp = iframe.getAttribute('referrerpolicy');
+                        log('Post-consent iframe: src=' + src.substring(0, 60) + ' | referrerpolicy=' + (rp || 'MISSING!'), rp ? 'success' : 'error');
+                    }
+                });
+            }, 2000);
+        });
+
+        window.addEventListener('CookiebotOnDecline', function() {
+            log('EVENT: CookiebotOnDecline fired', 'warn');
+        });
+
+        // ============================================================
+        // MUTATION OBSERVER: Watch Cookiebot DOM changes
+        // ============================================================
+        var domObserver = new MutationObserver(function(mutations) {
+            mutations.forEach(function(m) {
+                if (m.type === 'attributes' && m.target.tagName === 'IFRAME') {
+                    var attr = m.attributeName;
+                    var val = m.target.getAttribute(attr);
+                    var id = m.target.id || m.target.src || 'unknown';
+                    if (['src', 'data-src', 'data-cookieblock-src', 'referrerpolicy', 'data-cookieconsent'].indexOf(attr) !== -1) {
+                        log('DOM MUTATION on ' + id + ': ' + attr + ' → ' + (val ? '"' + val.substring(0, 80) + '"' : 'REMOVED'), 'warn');
+                    }
+                }
+            });
+        });
+
+        // Start observing after a short delay to let Cookiebot initialize
+        setTimeout(function() {
+            var iframes = document.querySelectorAll('iframe');
+            iframes.forEach(function(iframe) {
+                domObserver.observe(iframe, {
+                    attributes: true,
+                    attributeFilter: ['src', 'data-src', 'data-cookieblock-src', 'referrerpolicy', 'data-cookieconsent', 'type']
+                });
+            });
+            log('MutationObserver active: watching iframe attribute changes', 'info');
+        }, 500);
+
+        // Initial diagnostics
+        window.addEventListener('DOMContentLoaded', function() {
+            log('=== PAGE LOADED ===', 'info');
+            log('User-Agent: ' + navigator.userAgent.substring(0, 80) + '...', 'info');
+            checkAllDiagnostics();
+        });
+    </script>
+
 </body>
 </html>
